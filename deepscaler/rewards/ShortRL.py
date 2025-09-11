@@ -159,7 +159,10 @@ def compute_score(data_source, solution_str, ground_truth, extra_info=None,enabl
     reward_config.use_math_orm = enable_llm
     reward_fn = RewardMathFn(reward_config)
     answer_reward,format_reward = reward_fn(RewardInput(problem=solution_str, problem_type=RewardType.MATH, model_response=solution_str, ground_truth={"answer": ground_truth}))
-    return answer_reward,format_reward
+    return {
+            "score": answer_reward,
+            "format_reward": format_reward
+        }
 
 class LengthRScorer:
     def __init__(self,data,tokenizer,config):
