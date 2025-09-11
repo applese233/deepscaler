@@ -6,16 +6,16 @@ export VLLM_ATTENTION_BACKEND=XFORMERS
 
 export WANDB_API_KEY=4e752bb801154900707afd82eeaccc23c0c9c830
 Name=Qwen-short
-SavePath=/home/yiran/yaoqi_workplace/Short-RL/deepscaler/$Name
-basepath="/home/yiran/yaoqi_workplace/Short-RL/deepscaler/deepscaler/data/orzmath"
+SavePath=/home/cliu/deepscaler/checkpoints/$Name
+basepath="/home/cliu/deepscaler/deepscaler/data/orzmath"
 length_tolerance=100
 acc_tolerance=0.05
 reward_type=ShortRL
 # Train over a single node, 8 A100-80GB GPUs.
-CUDA_VISIBLE_DEVICES=1 python3 -m verl.trainer.main_ppo \
+python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
-    data.train_files=$basepath/train.parquet \
-    data.val_files=[$basepath/aime.parquet,$basepath/amc.parquet,$basepath/math.parquet,$basepath/minerva.parquet,$basepath/olympiad_bench.parquet] \
+    data.train_files=agentica-org/DeepScaleR-Preview-Dataset \
+    data.val_files=HuggingFaceH4/MATH-500@test \
     data.train_batch_size=128 \
     data.val_batch_size=128 \
     data.max_prompt_length=1024 \
@@ -47,7 +47,7 @@ CUDA_VISIBLE_DEVICES=1 python3 -m verl.trainer.main_ppo \
     trainer.project_name='DeepScaler' \
     trainer.experiment_name=$Name \
     trainer.val_before_train=True \
-    trainer.n_gpus_per_node=1 \
+    trainer.n_gpus_per_node=8 \
     trainer.nnodes=1 \
     trainer.save_freq=100 \
     trainer.test_freq=20 \
