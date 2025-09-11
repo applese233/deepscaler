@@ -154,7 +154,7 @@ class RewardMathFn(RewardFn):
                 
         return -1.5,1
 
-def compute_score(data_source, solution_str, ground_truth,enable_llm=False):
+def compute_score(data_source, solution_str, ground_truth, extra_info=None,enable_llm=False):
     reward_config = RewardConfig()
     reward_config.use_math_orm = enable_llm
     reward_fn = RewardMathFn(reward_config)
