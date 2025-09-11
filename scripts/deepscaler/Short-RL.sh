@@ -2,6 +2,12 @@ MODEL_PATH=Qwen/Qwen2.5-Math-1.5B-Instruct
 
 export VLLM_ATTENTION_BACKEND=XFORMERS
 
+export PYTHONUNBUFFERED=1
+export CUDA_VISIBLE_DEVICES=0,1,2,3
+
+ray stop --force
+ray start --head
+
 Name=shortRL_qwen1.5B_0911
 SavePath=/home/cliu/deepscaler/checkpoints/$Name
 basepath="/home/cliu/deepscaler/deepscaler/data/deepscaler"
