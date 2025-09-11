@@ -50,7 +50,7 @@ def make_map_fn(split: str,dataset_name
         answer = example.pop('answer')
 
         data = {
-            "data_source": dataset_name,
+            # "data_source": dataset_name,
             "prompt": [{
                 "role": "user",
                 "content": question
