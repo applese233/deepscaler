@@ -4,15 +4,15 @@ export VLLM_ATTENTION_BACKEND=XFORMERS
 
 Name=shortRL_qwen1.5B_0911
 SavePath=/home/cliu/deepscaler/checkpoints/$Name
-basepath="/home/cliu/deepscaler/deepscaler/data/orzmath"
+basepath="/home/cliu/deepscaler/deepscaler/data/deepscaler"
 length_tolerance=100
 acc_tolerance=0.05
 reward_type=ShortRL
 # Train over a single node, 8 A100-80GB GPUs.
 python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
-    data.train_files=agentica-org/DeepScaleR-Preview-Dataset \
-    data.val_files=HuggingFaceH4/MATH-500@test \
+    data.train_files=$basepath/train.parquet \
+    data.val_files=$basepath/math500.parquet \
     data.train_batch_size=128 \
     data.val_batch_size=128 \
     data.max_prompt_length=2048 \
@@ -44,11 +44,11 @@ python3 -m verl.trainer.main_ppo \
     trainer.project_name='Length-LLM' \
     trainer.experiment_name=$Name \
     trainer.val_before_train=True \
-    trainer.n_gpus_per_node=8 \
+    trainer.n_gpus_per_node=4 \
     trainer.nnodes=1 \
     trainer.save_freq=25 \
     trainer.test_freq=20 \
-    trainer.save_limit=4 \
+    +trainer.save_limit=4 \
     trainer.default_hdfs_dir=null \
     trainer.total_epochs=5 "${@:1}" \
     actor_rollout_ref.rollout.enforce_eager=False \

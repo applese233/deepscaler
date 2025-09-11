@@ -7,10 +7,13 @@ parser.add_argument('--datap', default="./deepscaler/data/orz_math_57k_collected
 parser.add_argument('--savepath', default="./deepscaler/data/orzmath/orz_math_57k_collected.json")
 args = parser.parse_args()
 datap = args.datap
-data = json.load(open(datap))
+# data = json.load(open(datap))
+data = []
+with open(datap, 'r') as f:
+    for line in f:
+        data.append(json.loads(line))
 
-
-newdata = [{'question': d[0]['value'], 'answer': d[1]['ground_truth']['value']} for d in data]
+newdata = [{'problem': d['problem'], 'answer': d['answer']} for d in data]
 #save to a new json file
 savepath=args.savepath
 json.dump(newdata, open(savepath, 'w'))

@@ -20,7 +20,7 @@ class TrainDataset(enum.Enum):
     MATH = 'MATH'  # Dan Hendrycks Math Problems
     STILL = 'STILL'  # STILL dataset
     SimpleRLMath= "math_simpleRL"
-    DEEPSCALER = 'DEEPSCALER'  # DeepScaler (AIME, AMC, OMNI_MATH, MATH, STILL)
+    DEEPSCALER = 'deepscaler'  # DeepScaler (AIME, AMC, OMNI_MATH, MATH, STILL)
     ORZ= "orz_math_57k_collected"
 
 
@@ -34,6 +34,7 @@ class TestDataset(enum.Enum):
     MATH = 'MATH'  # Math 500 problems
     MINERVA = 'MINERVA'  # Minerva dataset
     OLYMPIAD_BENCH = 'OLYMPIAD_BENCH'  # Olympiad benchmark problems
+    MATH500 = 'MATH500'
 
 """Type alias for either training or testing dataset types."""
 Dataset = Union[TrainDataset, TestDataset]

@@ -1,9 +1,9 @@
 
 
 python ./scripts/data/dataconvert.py \
- --datap ./deepscaler/data/orz_math_57k_collected.json \
- --savepath ./deepscaler/data/train/orz_math_57k_collected.json
+ --datap ./deepscaler/data/test.jsonl \
+ --savepath ./deepscaler/data/test/math500.json
 
 
 python ./scripts/data/deepscaler_datasetThink.py \
- --local_dir ./deepscaler/data/orzmath
+ --local_dir ./deepscaler/data/deepscaler

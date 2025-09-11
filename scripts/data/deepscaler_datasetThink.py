@@ -79,6 +79,10 @@ if __name__ == '__main__':
                        help='instrction model or not')
     args = parser.parse_args()
 
+
+    import deepscaler.data.utils
+    print(deepscaler.data.utils)
+    
     local_dir = args.local_dir
     hdfs_dir = args.hdfs_dir
     
@@ -87,12 +91,13 @@ if __name__ == '__main__':
         makedirs(local_dir)
 
     # Initialize datasets
-    train_datasets = [TrainDataset.ORZ]
+    train_datasets = [TrainDataset.DEEPSCALER]
     # print(train_datasets)
-    
+    print(train_datasets[0])
     train_dataset = load_dataset(train_datasets[0])
-    test_datasets = [TestDataset.AIME, TestDataset.AMC, TestDataset.MATH, TestDataset.MINERVA, TestDataset.OLYMPIAD_BENCH]
-    test_data_source = ['numina_amc_aime', 'numina_synthetic_amc', 'lighteval/MATH', '', 'numina_olympiads']
+    # print("What?", train_dataset[0])
+    test_datasets = [TestDataset.MATH500]
+    test_data_source = ['math500']
     
     test_datasets_data = [load_dataset(d) for d in test_datasets]
 
@@ -101,6 +106,7 @@ if __name__ == '__main__':
     process_fn = make_map_fn('train')
     for idx, example in enumerate(train_dataset):
         # print(idx, example)
+        # print(example)
         processed_example = process_fn(example, idx)
         if processed_example is not None:
             train_data.append(processed_example)

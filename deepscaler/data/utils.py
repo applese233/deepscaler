@@ -32,12 +32,16 @@ def load_dataset(dataset: Dataset) -> List[Dict[str, Any]]:
         >>> load_dataset(TrainDataset.AIME)
         [{'problem': 'Find x...', 'solution': '42', ...}, ...]
     """
+    print("Load", dataset)
     dataset_name = dataset.value.lower()
+    print(dataset_name)
     data_dir = "train" if isinstance(dataset, TrainDataset) else "test"
 
     current_dir = os.path.dirname(os.path.realpath(__file__))
     file_path = os.path.join(data_dir, f"{dataset_name}.json")
     file_path = os.path.join(current_dir, file_path)
+    
+    print(file_path)
 
     if not os.path.exists(file_path):
         raise ValueError(f"Dataset file not found: {file_path}")
