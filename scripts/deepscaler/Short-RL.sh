@@ -10,16 +10,15 @@ ray start --head
 
 Name=shortRL_qwen1.5B_0911
 SavePath=/home/cliu/deepscaler/checkpoints/$Name
-trainpath="/home/cliu/deepscaler/deepscaler/data/deepscaler"
-testpath="/home/cliu/deepscaler/deepscaler/data/orzmath"
+basepath="/home/cliu/deepscaler/deepscaler/data/deepscaler"
 length_tolerance=100
 acc_tolerance=0.05
 reward_type=ShortRL
 # Train over a single node, 8 A100-80GB GPUs.
 python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
-    data.train_files=$trainpath/train.parquet \
-    data.val_files=[$testpath/aime.parquet,$testpath/amc.parquet,$testpath/math.parquet,$testpath/minerva.parquet,$testpath/olympiad_bench.parquet] \
+    data.train_files=$basepath/train.parquet \
+    data.val_files=[$basepath/aime.parquet,$basepath/amc.parquet,$basepath/math.parquet,$basepath/minerva.parquet,$basepath/olympiad_bench.parquet] \
     data.train_batch_size=128 \
     data.val_batch_size=128 \
     data.max_prompt_length=2048 \

@@ -96,8 +96,8 @@ if __name__ == '__main__':
     print(train_datasets[0])
     train_dataset = load_dataset(train_datasets[0])
     # print("What?", train_dataset[0])
-    test_datasets = [TestDataset.MATH500]
-    test_data_source = ['math500']
+    test_datasets = [TestDataset.AIME, TestDataset.AMC, TestDataset.MATH, TestDataset.MINERVA, TestDataset.OLYMPIAD_BENCH]
+    test_data_source = ['numina_amc_aime', 'numina_synthetic_amc', 'lighteval/MATH', '', 'numina_olympiads']
     
     test_datasets_data = [load_dataset(d) for d in test_datasets]
 
