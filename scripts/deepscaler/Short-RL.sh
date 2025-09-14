@@ -11,7 +11,6 @@ ray start --head
 Name=shortRL_qwen1.5B_0911
 SavePath=/home/cliu/deepscaler/checkpoints/$Name
 basepath="/home/cliu/deepscaler/deepscaler/data/deepscaler"
-rewardpath="/home/cliu/deepscaler/deepscaler/rewards/ShortRL.py"
 length_tolerance=100
 acc_tolerance=0.05
 reward_type=ShortRL
@@ -43,14 +42,14 @@ python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.rollout.temperature=0.6 \
     actor_rollout_ref.rollout.gpu_memory_utilization=0.85 \
     actor_rollout_ref.rollout.n=4 \
-    +actor_rollout_ref.rollout.validate_roll_out_max_length=9216 \
+    actor_rollout_ref.rollout.validate_roll_out_max_length=4096 \
     actor_rollout_ref.ref.fsdp_config.param_offload=True \
     algorithm.kl_ctrl.kl_coef=0.001 \
     trainer.critic_warmup=0 \
     trainer.logger=['console'] \
     trainer.project_name='Length-LLM' \
     trainer.experiment_name=$Name \
-    trainer.val_before_train=True \
+    +trainer.val_before_train=True \
     trainer.n_gpus_per_node=4 \
     trainer.nnodes=1 \
     trainer.save_freq=25 \
@@ -61,6 +60,6 @@ python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.rollout.enforce_eager=False \
     actor_rollout_ref.rollout.free_cache_engine=False \
     trainer.default_local_dir=$SavePath \
-    +trainer.reward_type=$reward_type \
-    +algorithm.acc_tolerance=$acc_tolerance \
-    +algorithm.length_tolerance=$length_tolerance
+    trainer.reward_type=$reward_type \
+    algorithm.acc_tolerance=$acc_tolerance \
+    algorithm.length_tolerance=$length_tolerance

@@ -154,12 +154,12 @@ class RewardMathFn(RewardFn):
                 
         return -1.5,1
 
-def compute_score_math(solution_str, ground_truth,enable_llm=False):
+def compute_score(solution_str, ground_truth,enable_llm=False):
     reward_config = RewardConfig()
     reward_config.use_math_orm = enable_llm
     reward_fn = RewardMathFn(reward_config)
     answer_reward,format_reward = reward_fn(RewardInput(problem=solution_str, problem_type=RewardType.MATH, model_response=solution_str, ground_truth={"answer": ground_truth}))
-    return answer_reward, format_reward
+    return answer_reward,format_reward
 
 class LengthRScorer:
     def __init__(self,data,tokenizer,config):
@@ -195,8 +195,8 @@ class LengthRScorer:
 
             ground_truth = data_item.non_tensor_batch['reward_model']['ground_truth']
             solution_str = sequences_str
-
-            answer_score, format_score = compute_score_math(solution_str, ground_truth)
+           
+            answer_score, format_score = compute_score(solution_str, ground_truth)
             if answer_score > 0:
                 acc+=1
                 if self.index[i] not in self.id2maxlen:
@@ -250,9 +250,9 @@ class LengthRScorer:
             Total score (sum of format and answer rewards)
         """
 
-
-        answer_score, format_score = compute_score_math(solution_str, ground_truth)
-
+        
+        answer_score, format_score = compute_score(solution_str, ground_truth)
+        
         valid_len_control=False
         
         if answer_score > 0:
@@ -284,15 +284,11 @@ class LengthRScorer:
 
         else:
             total_score = format_score + answer_score
+        
+        
 
-        return {
-            "score": total_score,
-            "valid_len_control": valid_len_control
-        }
+        return total_score, valid_len_control
 
-def compute_score(data_source, solution_str, ground_truth, extra_info=None):
-    scorer = LengthRScorer()
-    return scorer.compute_score(data_source, solution_str, ground_truth, extra_info)
 
 if __name__ == "__main__":
     reward = RewardMathFn(RewardConfig)

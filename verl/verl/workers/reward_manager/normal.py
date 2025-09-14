@@ -23,6 +23,9 @@ from deepscaler.rewards.math_reward import deepscaler_reward_fn
 from deepscaler.rewards import ShortRL,CosFn,Efficient,Kimi
 
 def _select_rm_score_fn(data_source,config,data,tokenizer):
+    # print("================================")
+    # print(f"Select reward function for data source: {data_source}, reward type: {config.trainer.reward_type}")
+    # print("================================")
     if config.trainer.reward_type == 'default':
         if data_source == 'openai/gsm8k':
             return gsm8k.compute_score
@@ -38,7 +41,7 @@ def _select_rm_score_fn(data_source,config,data,tokenizer):
     #     if data_source == 'lighteval/MATH':
     #         return math_lengthr.LengthRScorer(data,tokenizer)
     elif config.trainer.reward_type == 'ShortRL':
-        
+        # print("Choose ShortRL reward function")
         return ShortRL.LengthRScorer(data,tokenizer,config)
     elif config.trainer.reward_type == 'CosFn':
         
@@ -100,15 +103,15 @@ class RewardManager:
 
             data_source = data_item.non_tensor_batch['data_source']
             if self.config.trainer.reward_type=="ShortRL" :
-                score,valid_len_control = compute_score_fn(index=i, solution_str=sequences_str, ground_truth=ground_truth)
+                score, valid_len_control = compute_score_fn(index=i, solution_str=sequences_str, ground_truth=ground_truth)
                 # bool to int
-                valid_len_control_sum+= int(valid_len_control)
+                valid_len_control_sum += int(valid_len_control)
             else:
                 score = compute_score_fn(index=i,solution_str=sequences_str, ground_truth=ground_truth)
 
             
 
-            
+            print('Score:', score)
             reward_tensor[i, valid_response_length - 1] = score
 
             if data_source not in already_print_data_sources:
